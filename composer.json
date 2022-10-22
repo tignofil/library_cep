@@ -1,0 +1,23 @@
+{
+    "name": "tigno/php_a",
+    "description": "Buscar de cep online",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-0": {
+            "Search": "src/"
+        },
+        "psr-4": {
+            "Tigno\\PhpA\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Fabio Gomes",
+            "email": "tignofil@gmail.com"
+        }
+    ],
+    "require": {
+      "php": ">=8.1.10"  
+    }
+}
