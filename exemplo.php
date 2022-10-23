@@ -5,6 +5,6 @@
 
     $busca = new Search;
 
-    $resultado = $busca->getAddressFromZipcodeViaCep('01001000');
+    $resultado = $busca->getAddressFromZipcodeCepLa('21765020');
 
     print_r($resultado);
