@@ -1,36 +1,57 @@
 <?php
 
-    namespace Tigno\PhpA;
+namespace Tigno\PhpA;
 
-    class Search{
-        private $urlViaCep = "https://viacep.com.br/ws/";
-        private $urlCepLa = "http://cep.la/";
+use Tigno\PhpA\ws\CepLa;
+use Tigno\PhpA\ws\ViaCep;
 
-
-        public function getAddressFromZipcodeViaCep(string $zipCode): array
-        {
-            $zipCode = \preg_replace('/[^0-9]/im', '', $zipCode); //->Tudo o que nao for numero vai ser removido
-
-            $get = \file_get_contents($this->urlViaCep . $zipCode . "/json");
-
-            return (array) json_decode($get);
-
-        }
-
-        public function getAddressFromZipcodeCepLa(string $zipCode): array
-        {
-            $opts = [
-                "http" => [
-                    "method" => "GET",
-                    "header" => "Accept: application/json"
-                ]
-            ];
-
-            $context = \stream_context_create($opts);
-            $get = \file_get_contents($this->urlCepLa . $zipCode, false, $context);
-
-            return (array) json_decode($get);
-
-        }
-
+class Search
+{
+    /**
+     * Undocumented function
+     *
+     * @param string $zipCode
+     * @return array
+     */
+    public function getAddressFromZipcodeViaCep(string $zipCode): array
+    {
+        $zipCode = \preg_replace('/[^0-9]/im', '', $zipCode); //Tudo o que nao for numero vai ser removido
+        return $this->getFromServerViaCep($zipCode);
     }
+
+    /**
+     * Undocumented function
+     *
+     * @param string $zipCode
+     * @return array
+     */
+    private function getFromServerViaCep(string $zipCode): array
+    {
+        $get = new ViaCep();
+
+        return $get->get($zipCode);
+    }
+    /**
+     * Undocumented function
+     *
+     * @param string $zipCode
+     * @return array
+     */
+    public function getAddressFromZipcodeCepLa(string $zipCode): array
+    {
+        return $this->getFromServerCepLa($zipCode);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param string $zipCode
+     * @return array
+     */
+    private function getFromServerCepLa(string $zipCode): array
+    {
+        $get = new CepLa();
+
+        return $get->get($zipCode);
+    }
+}
